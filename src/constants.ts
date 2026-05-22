@@ -42,7 +42,8 @@ export const dataCollectionCategories: DataCollectionCategory[] = [
         description: "Anonymous battle logging",
         gameEndpoint: [
             "game/battle/hero/start",
-            "game/battle/hero/complete-wave"
+            "game/battle/hero/complete-wave",
+            "game/batch"
         ]
     }
 ];

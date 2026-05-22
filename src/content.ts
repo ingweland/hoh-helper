@@ -19,8 +19,13 @@ import {
     submissionIdStorageKey
 } from "./constants";
 import getLogger from "./logger";
+import { BatchRequestDtoValidator } from "./proto_payload_validator";
 
 const logger = getLogger("content");
+const batchRequestValidator = new BatchRequestDtoValidator([
+    "game/battle/hero/start",
+    "game/battle/hero/complete-wave"
+]);
 
 window.addEventListener("message", async (event: MessageEvent) => {
     if (event.source !== window) return;
@@ -57,6 +62,10 @@ const handleProxyData = async function(data: WebPageMessagePayload) {
         return;
     }
     logger.debug(`Pattern matched ${responseUrlPath}`);
+    if (responseUrlPath == "game/batch" && batchRequestValidator.shouldProceed(data.base64RequestData)) {
+        logger.debug(`Batch processed`);
+    }
+    return;
     const categoryIds = endpointMap[responseUrlPath];
     const allowedCategoryIds: string[] = [];
     for (const categoryId of categoryIds) {

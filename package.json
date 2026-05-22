@@ -3,10 +3,10 @@
   "version": "1.1.2",
   "description": "Easily export your Heroes of History game data—including city layouts, heroes, equipment, leaderboards, and more—to Forge of Games.",
   "scripts": {
-    "build:dev": "node build.js dev && copyfiles -u 1 public/**/* dist",
-    "build:staging": "node build.js staging && copyfiles -u 1 public/**/* dist",
-    "build:prod": "node build.js prod && copyfiles -u 1 public/**/* dist",
-    "build": "npm run build:dev"
+    "generate:proto": "protoc --plugin=protoc-gen-ts_proto=%APPDATA%\\npm\\protoc-gen-ts_proto.cmd --ts_proto_out=src/generated --ts_proto_opt=esModuleInterop=true,outputServices=generic-definitions proto/*.proto",
+    "build:dev": "npm run generate:proto && node build.js dev && copyfiles -u 1 public/**/* dist",
+    "build:staging": "npm run generate:proto && node build.js staging && copyfiles -u 1 public/**/* dist",
+    "build:prod": "npm run generate:proto && node build.js prod && copyfiles -u 1 public/**/* dist"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,9 @@
     "dotenv": "^16.4.7",
     "esbuild": "^0.25.0",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.11.0",
+    "protobufjs": "^8.0.1"
   }
 }

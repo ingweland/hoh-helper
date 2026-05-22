@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ingweland.fog.inn.models.hoh;
+
+message BatchRequestDto {
+  repeated BatchRequestItemDto items = 1;
+}
+
+message BatchRequestItemDto {
+  string endpoint = 2;
+}
